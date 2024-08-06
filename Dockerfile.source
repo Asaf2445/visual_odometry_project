@@ -50,7 +50,7 @@ ENV DISPLAY=:0
 
 # Clone your project repository
 WORKDIR /root/ros2_ws 
-RUN git clone https://github.com/Asaf2445/visual_odometry_project.git src
+COPY src ./src
 ENV RVIZ_CONFIG=/root/ros2_ws/src/project_bringup/rviz/rviz_config.rviz
 ENV CONFIG_PATH=/root/ros2_ws/src/project_bringup/config/config.yaml
 

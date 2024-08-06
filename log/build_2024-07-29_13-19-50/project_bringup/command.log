@@ -1,2 +1,0 @@
-Invoking command in '/home/asaf/visual_odom_project/build/project_bringup': /usr/bin/cmake /home/asaf/visual_odom_project/src/project_bringup -DCMAKE_INSTALL_PREFIX=/home/asaf/visual_odom_project/install/project_bringup
-Invoked command in '/home/asaf/visual_odom_project/build/project_bringup' returned '1': /usr/bin/cmake /home/asaf/visual_odom_project/src/project_bringup -DCMAKE_INSTALL_PREFIX=/home/asaf/visual_odom_project/install/project_bringup
