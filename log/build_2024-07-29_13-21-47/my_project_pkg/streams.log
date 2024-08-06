@@ -1,0 +1,17 @@
+[0.410s] Invoking command in '/home/asaf/visual_odom_project/build/my_project_pkg': PYTHONPATH=/home/asaf/visual_odom_project/build/my_project_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asaf/visual_odom_project/install/my_project_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/asaf/visual_odom_project/build/my_project_pkg/build --no-deps symlink_data
+[0.596s] running develop
+[0.704s] running egg_info
+[0.704s] writing my_project_pkg.egg-info/PKG-INFO
+[0.704s] writing dependency_links to my_project_pkg.egg-info/dependency_links.txt
+[0.704s] writing entry points to my_project_pkg.egg-info/entry_points.txt
+[0.704s] writing requirements to my_project_pkg.egg-info/requires.txt
+[0.704s] writing top-level names to my_project_pkg.egg-info/top_level.txt
+[0.706s] reading manifest file 'my_project_pkg.egg-info/SOURCES.txt'
+[0.706s] writing manifest file 'my_project_pkg.egg-info/SOURCES.txt'
+[0.707s] running build_ext
+[0.707s] Creating /home/asaf/visual_odom_project/install/my_project_pkg/lib/python3.10/site-packages/my-project-pkg.egg-link (link to .)
+[0.708s] Installing optical_flow_run script to /home/asaf/visual_odom_project/install/my_project_pkg/lib/my_project_pkg
+[0.708s] 
+[0.708s] Installed /home/asaf/visual_odom_project/build/my_project_pkg
+[0.708s] running symlink_data
+[0.728s] Invoked command in '/home/asaf/visual_odom_project/build/my_project_pkg' returned '0': PYTHONPATH=/home/asaf/visual_odom_project/build/my_project_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/asaf/visual_odom_project/install/my_project_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py develop --editable --build-directory /home/asaf/visual_odom_project/build/my_project_pkg/build --no-deps symlink_data
