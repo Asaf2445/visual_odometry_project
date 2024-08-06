@@ -9,7 +9,7 @@ This project develops a robust visual odometry algorithm leveraging optical flow
 
 Below is a diagram illustrating the input and output interactions of the visual odometry algorithm:
 
-![Visual Odometry Algorithm Flow](./home/asaf/Pictures/algorithm_structure.drawio.png)
+![Visual Odometry Algorithm Flow](./algorithm_structure.drawio.png)
 
 - **/imu/data/**: Subscribes to IMU data for motion and orientation metrics.
 - **/usb_cam/image_raw/compressed**: Subscribes to image data from a USB camera.
