@@ -26,8 +26,6 @@ class OpticalFlowVelNode(Node):
         super().__init__('optical_flow_run')
         self.is_filter = self.declare_parameter("filter",value=1).value
 
-
-
         self.tf_broadcaster = TransformBroadcaster(self)
         self.t = TransformStamped()
         self.t.transform.translation.x = 0.0
@@ -38,20 +36,15 @@ class OpticalFlowVelNode(Node):
         self.imu_topic = self.config['topics']['imu_topic']
         self.output_topic = self.config['topics']['output_topic']
         self.camera_height = self.config['params']['camera_height']
-
+        self.is_fisheye_camera = self.config['fisheye_camera']
         self.cam_sub = Subscriber(self, CompressedImage, self.image_topic)
         self.imu_subscriber = Subscriber(self, Imu, self.imu_topic )
         self.sync = ApproximateTimeSynchronizer([self.cam_sub, self.imu_subscriber], 10, 0.5, allow_headerless=True)
         self.sync.registerCallback(self.callback_image)
         self.publisher_ = self.create_publisher(Image,self.output_topic, 10)
         self.marker_publisher = self.create_publisher(Marker, "contour_marker_topic", 10)  
-        
-       
-
         self.contour_points = []
         self.cv_bridge = CvBridge()
-
-       
         self.feature_params = dict(maxCorners = 100,
                       qualityLevel = 0.1,
                       minDistance = 7,
@@ -217,35 +210,32 @@ class OpticalFlowVelNode(Node):
         v0 = static_features[:, 0, 1]
         u1 = static_features[:, 1, 0]
         v1 = static_features[:, 1, 1]
-       
 
+        points1_camera_img = np.column_stack([u0, v0])
+        points2_camera_img = np.column_stack((u1, v1))
         
-        points1_fisheye_img = np.column_stack([u0, v0])
+        if self.is_fisheye_camera == True:
+           #for fisheye image
+          points1_undistorted_img = cv2.undistortPoints(points1_camera_img, camera_matrix, distortion_coefficients, R=None, P=None)
+          points2_undistorted_img = cv2.undistortPoints(points2_camera_img, camera_matrix, distortion_coefficients, R=None, P=None)
+          points1_undistorted_img = np.column_stack([points1_undistorted_img[:, 0, 0], points1_undistorted_img[:, 0, 1]])
+          points2_undistorted_img = np.column_stack([points2_undistorted_img[:, 0, 0], points2_undistorted_img[:, 0, 1]])
+          points1_undistorted_img[:,0] = points1_undistorted_img[:,0]*camera_matrix[0,0] + camera_matrix[0,2]
+          points1_undistorted_img[:,1] = points1_undistorted_img[:,1]*camera_matrix[1,1] + camera_matrix[1,2]
 
-        points2_fisheye_img = np.column_stack((u1, v1))
+          points2_undistorted_img[:,0] = points2_undistorted_img[:,0]*camera_matrix[0,0] + camera_matrix[0,2]
+          points2_undistorted_img[:,1] = points2_undistorted_img[:,1]*camera_matrix[1,1] + camera_matrix[1,2]
 
-      
-        points1_undistorted_img = cv2.undistortPoints(points1_fisheye_img, camera_matrix, distortion_coefficients, R=None, P=None)
-        points2_undistorted_img = cv2.undistortPoints(points2_fisheye_img, camera_matrix, distortion_coefficients, R=None, P=None)
-        points1_undistorted_img = np.column_stack([points1_undistorted_img[:, 0, 0], points1_undistorted_img[:, 0, 1]])
-        points2_undistorted_img = np.column_stack([points2_undistorted_img[:, 0, 0], points2_undistorted_img[:, 0, 1]])
-        points1_undistorted_img[:,0] = points1_undistorted_img[:,0]*camera_matrix[0,0] + camera_matrix[0,2]
-        points1_undistorted_img[:,1] = points1_undistorted_img[:,1]*camera_matrix[1,1] + camera_matrix[1,2]
-
-        points2_undistorted_img[:,0] = points2_undistorted_img[:,0]*camera_matrix[0,0] + camera_matrix[0,2]
-        points2_undistorted_img[:,1] = points2_undistorted_img[:,1]*camera_matrix[1,1] + camera_matrix[1,2]
-
-        #for fisheye image
-        x1 = self.camera_height/self.xfocal*(points1_undistorted_img[:,0]-self.Cx)
-        y1 = self.camera_height/self.yfocal*(points1_undistorted_img[:,1]-self.Cy)
-        x2 = self.camera_height/self.xfocal*(points2_undistorted_img[:,0]-self.Cx)
-        y2 = self.camera_height/self.yfocal*(points2_undistorted_img[:,1]-self.Cy)
-        
-        #for undistorted image
-        # x1 = self.z/self.xfocal*(points1_fisheye_img[:,0]-self.Cx)
-        # y1 = self.z/self.yfocal*(points1_fisheye_img[:,1]-self.Cy)
-        # x2 = self.z/self.xfocal*(points2_fisheye_img[:,0]-self.Cx)
-        # y2 = self.z/self.yfocal*(points2_fisheye_img[:,1]-self.Cy)
+          x1 = self.camera_height/self.xfocal*(points1_undistorted_img[:,0]-self.Cx)
+          y1 = self.camera_height/self.yfocal*(points1_undistorted_img[:,1]-self.Cy)
+          x2 = self.camera_height/self.xfocal*(points2_undistorted_img[:,0]-self.Cx)
+          y2 = self.camera_height/self.yfocal*(points2_undistorted_img[:,1]-self.Cy)
+        else:
+          #for undistorted image
+          x1 = self.z/self.xfocal*(points1_camera_img[:,0]-self.Cx)
+          y1 = self.z/self.yfocal*(points1_camera_img[:,1]-self.Cy)
+          x2 = self.z/self.xfocal*(points2_camera_img[:,0]-self.Cx)
+          y2 = self.z/self.yfocal*(points2_camera_img[:,1]-self.Cy)
 
 # Extract the undistorted points        
         points1 = np.column_stack((x1, y1))

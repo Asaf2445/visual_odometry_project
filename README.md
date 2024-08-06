@@ -52,6 +52,42 @@ Below is a diagram illustrating the input and output interactions of the visual 
     ```bash
     pip install -r requirements.txt
     ```
+## Detailed Usage and Configuration
+
+### IMU Data Requirements
+The algorithm requires IMU data, specifically orientation data in quaternion format, which is consumed from the `/imu/data` topic. If your IMU sensor does not provide orientation data directly in quaternion format, you will need to implement an additional node that estimates and publishes this orientation. This node should subscribe to whatever orientation data your IMU provides (e.g., Euler angles, raw gyroscopic data), convert this data into quaternion format, and publish it to the `/imu/data` topic.
+
+### Configurable Topic Names
+The system is designed to be flexible with respect to the ROS topics from which it subscribes and to which it publishes. All topic names can be configured to accommodate your specific setup or preferences. This is managed through a configuration file, which allows you to specify the topic names used by the system.
+
+#### Configuring Topics
+To adapt the visual odometry algorithm to your needs, modify the topic names in the provided configuration file as follows:
+
+1. **Open the Configuration File**:
+   - Navigate to the `config` folder in the project directory.
+   - Open the `config.yaml` file.
+
+2. **Modify Topic Names**:
+   - You will see entries for each topic that the system uses, such as `imu_topic` and `camera_topic`. Replace the default values with the names of the topics  published by your sensors and desired output topics.
+
+3. **Camera Type**:
+   - you can specify the type of camera you are using. Set `fisheye_camera: TRUE` if you are using a fisheye camera, which requires specific calibration and processing due to its wide-angle lens characteristics. Set it to `FALSE` if you are using a regular camera. This setting helps the system adjust its processing algorithms to suit the camera's lens type.
+
+4. **Params**:
+   - Adjust the camera's mounting height above the ground in millimeters (mm). 
+
+### Camera Calibration
+
+To ensure the highest accuracy of the visual odometry, it is crucial to calibrate your camera specifically for conditions that include wide-angle (fisheye) lenses. Calibration parameters are managed in the `camera_calibrate_params.py` file, which should be updated with your camera's specific calibration results.
+
+#### Calibration Steps
+1. **Calibrate Your Camera**: Use tools like OpenCV's calibration toolkit with a checkerboard to capture calibration images.
+
+2. **Update Calibration Parameters**: Adjust the focal lengths (`fx`, `fy`), principal point (`cx`, `cy`), and distortion coefficients (`k1`, `k2`, `p1`, `p2`, `k3`) in the `camera_calibrate_params.py`.
+
+3. **Implement in Project**: Ensure these values accurately represent your camera setup to correct image distortions effectively, crucial for precise optical flow and trajectory computations in environments suited to fisheye cameras.
+
+Following these steps will help maintain system accuracy and reliability across different operational scenarios and camera setups.
 
 ## Using Docker with Visual Studio Code
 To use this project within a Docker container managed by Visual Studio Code, follow these steps:
