@@ -34,7 +34,6 @@ This project develops a robust visual odometry algorithm leveraging optical flow
     ```
 3. Install additional ROS packages:
     ```bash
-    sudo apt install ros-<ros2-distro>-usb-cam
     sudo apt install ros-<ros2-distro>-opencv
     ```
 4. Install Python dependencies:
@@ -42,12 +41,38 @@ This project develops a robust visual odometry algorithm leveraging optical flow
     pip install -r requirements.txt
     ```
 
-## Usage
-To run the visual odometry algorithm within the ROS2 framework:
-    ```bash
-    ros2 launch project_bringup optical_flow_app.launch.py 
-    ```
-Ensure that the camera and IMU are properly configured and connected as specified in the setup documentation.
+## Using Docker with Visual Studio Code
+To use this project within a Docker container managed by Visual Studio Code, follow these steps:
+
+1. **Ensure Docker is Installed**: Make sure you have Docker installed and running on your machine.
+
+2. **Install Visual Studio Code and the Remote - Containers Extension**:
+   - Download and install [Visual Studio Code](https://code.visualstudio.com/).
+   - Install the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) from the VS Code marketplace.
+
+3. **Open the Project in a Container**:
+   - Open Visual Studio Code.
+   - Press `Ctrl+Shift+P` to open the command palette.
+   - Type `Remote-Containers: Open Folder in Container...`, and select the folder where you cloned the project.
+   - VS Code will build a Docker container according to the specifications in your Dockerfile or defined in the `.devcontainer/devcontainer.json` if available. This process may take a few minutes the first time.
+
+4. **Configure the Container**:
+   - Once the container is built and running, VS Code will automatically connect to it. You may need to install any required extensions inside the container when prompted by VS Code.
+   - Open the terminal in VS Code (using ``Ctrl+` `` or through the Terminal menu) to interact with the ROS2 environment inside the container.
+
+5. **Run the ROS2 Application**:
+   - In the VS Code terminal, navigate to your ROS2 workspace:
+     ```bash
+     cd ~/ros2_ws
+     ```
+   - Source the ROS2 setup script:
+     ```bash
+     source install/setup.bash
+     ```
+   - Launch your visual odometry application:
+     ```bash
+     ros2 launch project_bringup optical_flow_app.launch.py
+     ```
 
 ## Contributing
 Contributions to this project are welcome! Please refer to `CONTRIBUTING.md` for guidelines on how to make contributions.
