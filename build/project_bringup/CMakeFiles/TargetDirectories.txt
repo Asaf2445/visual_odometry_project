@@ -1,0 +1,9 @@
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/uninstall.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/project_bringup_uninstall.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/test.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/edit_cache.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/rebuild_cache.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/list_install_components.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/install.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/install/local.dir
+/home/asaf/visual_odometry_project/build/project_bringup/CMakeFiles/install/strip.dir

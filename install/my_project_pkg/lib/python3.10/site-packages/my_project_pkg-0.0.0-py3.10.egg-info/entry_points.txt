@@ -1,0 +1,3 @@
+[console_scripts]
+optical_flow_run = my_project_pkg.optical_flow_node:main
+

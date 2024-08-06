@@ -1,0 +1,9 @@
+topics:
+  image_topic: "/usb_cam/image_raw/compressed"
+  imu_topic: "/imu/data"
+  output_topic: "process_image"
+
+
+params:
+  camera_height: 1000 #camera distance from the ground in [mm] 
+

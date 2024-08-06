@@ -5,6 +5,17 @@ This project develops a robust visual odometry algorithm leveraging optical flow
 - This package is exclusively built for ROS2. It is being tested on Ubuntu 22.04 with ROS2-Humble.
 - **Docker Support**: The project includes Dockerfile specifications for building and running in Docker containers, making it easy to set up and use in diverse environments without the need for extensive local configuration.
 
+## Algorithm Overview
+
+Below is a diagram illustrating the input and output interactions of the visual odometry algorithm:
+
+![Visual Odometry Algorithm Flow](./home/asaf/Pictures/algorithm_structure.drawio.png)
+
+- **/imu/data/**: Subscribes to IMU data for motion and orientation metrics.
+- **/usb_cam/image_raw/compressed**: Subscribes to image data from a USB camera.
+- **process_image**: Publishes computed optical flow fields.
+- **contour_marker_topic**: Publishes trajectory data for visualization in RViz.
+
 ## Key Features
 - **Optical Flow Utilization:** Utilizes optical flow algorithms to compute motion between successive camera frames, providing detailed motion vectors that contribute to trajectory estimation.
 - **Data Fusion with Kalman Filter:** Employs a Kalman filter to effectively fuse visual data from the camera and motion data from the IMU. This approach mitigates errors inherent in each sensor, leading to more precise motion tracking.
@@ -51,17 +62,24 @@ To use this project within a Docker container managed by Visual Studio Code, fol
    - Download and install [Visual Studio Code](https://code.visualstudio.com/).
    - Install the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) from the VS Code marketplace.
 
-3. **Open the Project in a Container**:
+3. **Prepare Your System for GUI Applications**:
+   - To allow GUI applications running inside Docker containers to display on your host system, you need to run the following command in your terminal. This command grants access to the X server for local connections from the root user inside the Docker container:
+     ```bash
+     xhost +local:root
+     ```
+   - This step is crucial for systems where the Docker container needs to interface with the host's display, commonly required for graphical applications like RViz in ROS.
+
+4. **Open the Project in a Container**:
    - Open Visual Studio Code.
    - Press `Ctrl+Shift+P` to open the command palette.
    - Type `Remote-Containers: Open Folder in Container...`, and select the folder where you cloned the project.
    - VS Code will build a Docker container according to the specifications in your Dockerfile or defined in the `.devcontainer/devcontainer.json` if available. This process may take a few minutes the first time.
 
-4. **Configure the Container**:
+5. **Configure the Container**:
    - Once the container is built and running, VS Code will automatically connect to it. You may need to install any required extensions inside the container when prompted by VS Code.
    - Open the terminal in VS Code (using ``Ctrl+` `` or through the Terminal menu) to interact with the ROS2 environment inside the container.
 
-5. **Run the ROS2 Application**:
+6. **Run the ROS2 Application**:
    - In the VS Code terminal, navigate to your ROS2 workspace:
      ```bash
      cd ~/ros2_ws
@@ -74,12 +92,6 @@ To use this project within a Docker container managed by Visual Studio Code, fol
      ```bash
      ros2 launch project_bringup optical_flow_app.launch.py
      ```
-
-## Contributing
-Contributions to this project are welcome! Please refer to `CONTRIBUTING.md` for guidelines on how to make contributions.
-
 ## License
 This project is licensed under the MIT License - see the `LICENSE` file for details.
 
-## Contact
-For questions and feedback, please contact [your-email] or raise an issue in the project repository.
