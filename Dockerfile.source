@@ -62,4 +62,5 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash && \
     colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # Setup the entrypoint
-ENTRYPOINT ["/bin/bash", "-c", "source /opt/ros/${ROS_DISTRO}/setup.bash"]
+# Define a default command that keeps the container running
+CMD ["bash", "-c", "source /opt/ros/${ROS_DISTRO}/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 launch project_bringup optical_flow_app.launch.py && tail -f /dev/null"]
