@@ -26,8 +26,6 @@ class OpticalFlowVelNode(Node):
         super().__init__('optical_flow_run')
         self.is_filter = self.declare_parameter("filter",value=1).value
 
-
-
         self.tf_broadcaster = TransformBroadcaster(self)
         self.t = TransformStamped()
         self.t.transform.translation.x = 0.0
@@ -45,13 +43,8 @@ class OpticalFlowVelNode(Node):
         self.sync.registerCallback(self.callback_image)
         self.publisher_ = self.create_publisher(Image,self.output_topic, 10)
         self.marker_publisher = self.create_publisher(Marker, "contour_marker_topic", 10)  
-        
-       
-
         self.contour_points = []
         self.cv_bridge = CvBridge()
-
-       
         self.feature_params = dict(maxCorners = 100,
                       qualityLevel = 0.1,
                       minDistance = 7,
@@ -232,7 +225,7 @@ class OpticalFlowVelNode(Node):
 
           points2_undistorted_img[:,0] = points2_undistorted_img[:,0]*camera_matrix[0,0] + camera_matrix[0,2]
           points2_undistorted_img[:,1] = points2_undistorted_img[:,1]*camera_matrix[1,1] + camera_matrix[1,2]
-          
+
           x1 = self.camera_height/self.xfocal*(points1_undistorted_img[:,0]-self.Cx)
           y1 = self.camera_height/self.yfocal*(points1_undistorted_img[:,1]-self.Cy)
           x2 = self.camera_height/self.xfocal*(points2_undistorted_img[:,0]-self.Cx)

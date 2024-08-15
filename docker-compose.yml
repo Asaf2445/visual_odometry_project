@@ -8,9 +8,7 @@ services:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
     volumes:
-      - ./:/root/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix
-    command: /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 launch project_bringup optical_flow_app.launch.py && tail -f /dev/null"
     network_mode: host
     privileged: true
     cap_add:
@@ -18,3 +16,4 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
+    command: /bin/bash -c "source /opt/ros/humble/setup.bash && source /root/ros2_ws/install/setup.bash && ros2 launch project_bringup optical_flow_app.launch.py && tail -f /dev/null"
