@@ -1,0 +1,1 @@
+/home/asaf/visual_odometry_project/build/project_bringup/ament_cmake_environment_hooks/local_setup.bash
